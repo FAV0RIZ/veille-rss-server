@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const Parser = require('rss-parser');
 const NodeCache = require('node-cache');
 
@@ -65,10 +64,13 @@ const SOURCES = {
 const ALL_CATEGORIES = Object.keys(SOURCES);
 
 // ── Middlewares ───────────────────────────────────────────────────────────────
-app.use(cors({ origin: '*', methods: ['GET', 'OPTIONS'] }));
-app.use((_req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
   next();
 });
 app.use(express.json());
