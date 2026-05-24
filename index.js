@@ -66,6 +66,11 @@ const ALL_CATEGORIES = Object.keys(SOURCES);
 
 // ── Middlewares ───────────────────────────────────────────────────────────────
 app.use(cors({ origin: '*', methods: ['GET', 'OPTIONS'] }));
+app.use((_req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  next();
+});
 app.use(express.json());
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
